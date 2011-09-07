@@ -19,6 +19,7 @@ import json
 import netaddr
 import urllib
 import urlparse
+import base64
 
 from datetime import datetime
 from webob import exc
@@ -812,6 +813,14 @@ class ExtrasKeypairController(object):
         return {'keypairs': result}
 
 
+class ExtrasProjectController(object):
+    def zipfile(self, req, id):
+        context = req.environ['nova.context']
+        zip_file = auth_manager.AuthManager().get_credentials(
+            context.user_id, id)
+        return {"zipfile": base64.b64encode(zip_file)}
+
+
 class AdminProjectController(object):
 
     def show(self, req, id):
@@ -1117,6 +1126,9 @@ class Admin(object):
                                              ExtrasConsoleController()))
         resources.append(extensions.ResourceExtension('admin/flavors',
                                              AdminFlavorController()))
+        resources.append(extensions.ResourceExtension('extras/projects',
+                                             ExtrasProjectController(),
+                                             member_actions={'zipfile': 'GET'}))
         resources.append(extensions.ResourceExtension('extras/usage',
                                              UsageController()))
         resources.append(extensions.ResourceExtension('extras/flavors',

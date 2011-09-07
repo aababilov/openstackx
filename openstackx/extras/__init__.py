@@ -13,6 +13,7 @@ from openstackx.extras.endpoints import EndpointManager
 from openstackx.extras.security_groups import SecurityGroupManager
 from openstackx.extras.security_group_rules import SecurityGroupRuleManager
 from openstackx.extras.virtual_interfaces import VirtualInterfacesManager
+from openstackx.extras.projects import ProjectManager
 from openstackx.api.config import Config
 
 
@@ -46,6 +47,7 @@ class Extras(object):
         self.security_groups = SecurityGroupManager(self)
         self.security_group_rules = SecurityGroupRuleManager(self)
         self.virtual_interfaces = VirtualInterfacesManager(self)
+        self.projects = ProjectManager(self)
 
     def authenticate(self):
         """
